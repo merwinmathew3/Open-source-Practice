@@ -1,3 +1,161 @@
+# MongoDB FastAPI Services
+
+
+FastAPI application that connects to a MongoDB database and retrieves data from a specified databade and collection. It demonstrates how to use FastAPI, pymongo, and Pydantic models to create an API endpoint that fetches data from a MongoDB database.
+
+## Features
+* Insert data into specified database and collection
+* Read data from any requested database and collection and perform query and projection operation
+* Delete requested data 
+* Update requested data
+
+## Technologies Used
+* Fast Api framework
+* MongoDB database
+* Postman for testing api
+## Installation
+1. Clone the repository to your local machine.
+1. Install the required dependencies.
+  
+  ```
+  $ pip install -r requirements.txt
+  ```
+
+3. Run the application.
+  ```
+  python app.py
+  ```
+4. Open postman and check api endpoints.
+
+
+## ENDPOINTS 
+
+| Key names | Explanation |
+|---| ------ |
+| host | name of your localhost |
+| port | your port number |
+| database | databasename  |
+| collection | collection name|
+| query | querying allows you to retrieve specific data from the database based on certain criteria or conditions |
+| projection | projection allows you to select specific fields from a document in a query. This helps retrieve only the necessary data.  |
+|pageOffset|this number specifies from which page you need to display data|
+|pagelimit| number of data needed in single page |
+| filter_data | which data we need to select for deletion or updation|
+| update_data| we can give the valus that needs to be updated |
+|data| we can give attributes for inserting data
+
+- [FETCH](#fetch)
+- [UPDATE](#update)
+- [DELETE](#delete)
+- [INSERT](#insert)
+
+### FETCH
+Fetches all data from the specified collectione in the MongoDB database. The response will be a list of dictionaries with respective key and value pairs
+* Method: GET 
+* Endpoint Url: http://<hostname>:<portnumber>//mongo/v1/fetch/
+
+### PAYLOADS
+
+
+* SAMPLE PAYLOAD
+
+```
+{
+  "host": "localhost",
+  "port": 27017,
+  "database": "yourdatabase",
+  "collection": "users",
+  "query": {"name":"merwin"},
+  "projection": {"name":1}, //here it only dislpays name. If 0,it dont display name field
+  "pageOffset": 0,
+  "pagelimit": 2
+}
+```
+* SAMPLE RESPONSE:
+
+JSON
+```
+[
+    {
+        "Total data": 6,
+        "Page number": 0
+    },
+    {
+        "result": [
+            {
+                "_id": "667901e67de78ae43b6248aa",
+                "name": "merwin"
+            }
+        ]
+    }
+]
+```
+
+### UPDATE
+* **Method: GET** 
+* **Endpoint Url: http://<hostname>:<portnumber>/mongo/v1/update/**
+### PAYLOAD
+* SAMPLE PAYLOAD
+```
+{
+    "filter_data": {
+        "name": "merwin"
+    },
+    "update_data": {
+        "name": "merwin"
+    },"db":{"host": "localhost",
+    "port": 27017,
+    "database": "yourdatabase",
+    "collection": "users"
+}}
+```
+* SAMPLE RESPONSE:
+```
+{
+    "message": "data updated successfully."
+}
+```
+
+### DELETE
+* **Method : DELETE** 
+* **Endpoint Url: http://<hostname>:<portnumber>/mongo/v1/delete/**
+```
+{
+    "filter_data": {
+        "name": "merwin"
+    },
+    "db":{"host": "localhost",
+    "port": 27017,
+    "database": "yourdatabase",
+    "collection": "users"
+}}
+```
+* SAMPLE RESPONSE:
+```
+{
+    "message": "data deleted successfully."
+}
+```
+- ### INSERT 
+* **Method : POST** 
+* **Endpoint Url: http://<hostname>:<portnumber>/mongo/v1/insert/**
+```
+{"db": 
+    {
+            "host": "localhost",
+            "port": 27017,
+            "database": "yourdatabase",
+            "collection": "users"
+        },
+        "data": {"field_to_insert": "value_to_insert"}
+    }
+```
+* SAMPLE RESPONSE:
+```
+{
+    "message": "data inserted successfully."
+}
+```
 # Open-source-Practice
 GSSoC is a 3-month long #OpenSource program by GirlScript Foundation, India.
 
